@@ -1,7 +1,5 @@
 # CloudburstTCC
 
-[![Build Status](https://travis-ci.com/hydro-project/cloudburst.svg?branch=master)](https://travis-ci.com/hydro-project/cloudburst)
-[![codecov](https://codecov.io/gh/hydro-project/cloudburst/branch/master/graph/badge.svg)](https://codecov.io/gh/hydro-project/cloudburst)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Cloudburst was originally designed by the [RISE Lab](https://rise.cs.berkeley.edu) at [UC Berkeley](https://berkeley.edu). The original code can be found [here](https://github.com/hydro-project/cloudburst).
