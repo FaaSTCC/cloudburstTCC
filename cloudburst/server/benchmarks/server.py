@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
+#  Modifications copyright (C) 2021 Taras Lykhenko, Rafael Soares
 import logging
 import sys
 
@@ -76,10 +76,6 @@ def run_bench(bname, num_requests, cloudburst, kvs, redis, create=False, dag_nam
     if bname == 'tcc':
         total, scheduler, kvs, retries = tcc_bench.run(cloudburst, num_requests,
                                                   create, redis, dag_name, db_size, tx_size, dag_size, zipf, warmup)
-
-    elif bname == 'parallel':
-        total, scheduler, kvs, retries = tcc_parallel_bench.run(cloudburst, num_requests,
-                                                  create, redis, dag_name, db_size, tx_size, dag_size, zipf)
 
     else:
         logging.info('Unknown benchmark type: %s!' % (bname))

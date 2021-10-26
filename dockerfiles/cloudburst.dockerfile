@@ -11,13 +11,14 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+#  Modifications copyright (C) 2021 Taras Lykhenko, Rafael Soares
 
-FROM taraslykhenko/base:latest
+FROM jrafaelsoares/faastcc_base:latest
 
 MAINTAINER Vikram Sreekanti <vsreekanti@gmail.com> version: 0.1
 
-ARG repo_org=TarasLykhenko
-ARG source_branch=main
+ARG repo_org=FaaSTCC
+ARG source_branch=master
 ARG build_branch=docker-build
 
 USER root
@@ -35,7 +36,7 @@ RUN rm -rf /usr/lib/python3/dist-packages/PyYAML-*
 RUN pip3 install -r requirements.txt
 WORKDIR $HYDRO_HOME
 RUN rm -rf anna
-RUN git clone --recurse-submodules https://github.com/TarasLykhenko/AnnaTCC.git anna
+RUN git clone --recurse-submodules https://github.com/$repo_org/annaTCC.git anna
 WORKDIR anna
 RUN cd client/python && python3.6 setup.py install
 WORKDIR /

@@ -13,6 +13,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+#  Modifications copyright (C) 2021 Taras Lykhenko, Rafael Soares
 
 IP=`ifconfig eth0 | grep 'inet' | grep -v inet6 | sed -e 's/^[ \t]*//' | cut -d' ' -f2`
 
@@ -35,7 +36,7 @@ gen_yml_list() {
 # client from the Anna project.
 cd $HYDRO_HOME/anna
 git remote remove origin
-git remote add origin https://github.com/$ANNA_REPO_ORG/AnnaTCC.git
+git remote add origin https://github.com/$ANNA_REPO_ORG/annaTCC.git
 while !(git fetch -p origin); do
    echo "git fetch failed, retrying..."
 done
@@ -49,11 +50,11 @@ python3.6 setup.py install
 
 cd $HYDRO_HOME/cloudburst
 if [[ -z "$REPO_ORG" ]]; then
-  REPO_ORG="TarasLykhenko"
+  REPO_ORG="FaaSTCC"
 fi
 
 if [[ -z "$REPO_BRANCH" ]]; then
-  REPO_BRANCH="main"
+  REPO_BRANCH="master"
 fi
 
 git remote remove origin
