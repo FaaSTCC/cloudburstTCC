@@ -34,4 +34,4 @@ To run Anna and Cloudburst in cluster mode, you will need to use the cluster man
 
 ## License
 
-The Hydro Project is licensed under the [Apache v2 License](LICENSE).
+FaaSTCC is licensed under the [Apache v2 License](LICENSE).
