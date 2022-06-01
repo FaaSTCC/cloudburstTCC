@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  Modifications copyright (C) 2021 Taras Lykhenko, Rafael Soares
+
 import json
 import logging
 import sys
@@ -61,7 +62,7 @@ from cloudburst.shared.utils import (
 METADATA_THRESHOLD = 5
 REPORT_THRESHOLD = 5
 
-logging.basicConfig(level=logging.INFO, stream=sys.stdout,
+logging.basicConfig(filename='log_scheduler.txt', level=logging.INFO,
                     format='%(asctime)s %(message)s')
 
 

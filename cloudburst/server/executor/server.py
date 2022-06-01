@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  Modifications copyright (C) 2021 Taras Lykhenko, Rafael Soares
+
 import logging
 import os
 import sys
@@ -43,7 +44,7 @@ BATCH_SIZE_MAX = 20
 
 
 def executor(ip, mgmt_ip, schedulers, thread_id):
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout,
+    logging.basicConfig(filename='log_executor.txt', level=logging.INFO,
                         format='%(asctime)s %(message)s')
 
     # Check what resources we have access to, set as an environment variable.

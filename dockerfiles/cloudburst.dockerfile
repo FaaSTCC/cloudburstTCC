@@ -53,7 +53,4 @@ RUN pip3 install pandas s3fs
 
 RUN pip3 install redis pymongo
 
-RUN touch a
-RUN pip3 install --upgrade git+https://github.com/devin-petersohn/modin@engines/cloudburst_init
-
 CMD bash start-cloudburst.sh

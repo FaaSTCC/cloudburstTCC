@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  Modifications copyright (C) 2021 Taras Lykhenko, Rafael Soares
+
 import logging
 import time
 
@@ -372,21 +373,17 @@ def _exec_dag_function_causal(pusher_cache, kvs, triggers, function, schedule,
     fname = schedule.target_function
     fargs = list(schedule.arguments[fname].values)
 
-    t_high = 2**64-1
-    t_low = 0
+
     for trigger in triggers:
         fargs += list(trigger.arguments.values)
-        t_high = min(t_high, trigger.t_high)
-        t_low = max(t_low, trigger.t_low)
 
 
     fargs = [serializer.load(arg) for arg in fargs]
 
-    if(t_high == 0):
-        t_high = 2**64-1
-
+    if(trigger.t_high == 0):
+        trigger.t_high = 2**64-1
     result, new_t_low, new_t_high = _exec_func_causal(kvs, function, fargs, user_lib, schedule,
-                               t_low, t_high)
+                               trigger.t_low, trigger.t_high)
 
     this_ref = None
     for ref in schedule.dag.functions:
@@ -406,7 +403,7 @@ def _exec_dag_function_causal(pusher_cache, kvs, triggers, function, schedule,
         new_trigger.t_low = new_t_high
         new_trigger.t_high = new_t_high
     else:
-        logging.info("Snapshot continues as: trigger low {} trigger high {}", str(trigger.t_low), str(trigger.t_high))
+        logging.info("Snapshot continues as: trigger low {} trigger high {}", trigger.t_low, trigger.t_high)
         new_trigger.t_low = trigger.t_low
         new_trigger.t_high = trigger.t_high
 
@@ -428,14 +425,13 @@ def _exec_dag_function_causal(pusher_cache, kvs, triggers, function, schedule,
 
 
         # Serialize result into a MultiKeyCausalLattice.
-        if schedule.output_key:
-            result = serializer.dump_lattice(result, WrenLattice)
+        result = serializer.dump_lattice(result,WrenLattice);
 
+        succeed = kvs.causal_put(schedule.output_key,
+                                 result, schedule.client_id)
+        while not succeed:
             succeed = kvs.causal_put(schedule.output_key,
                                      result, schedule.client_id)
-            while not succeed:
-                succeed = kvs.causal_put(schedule.output_key,
-                                         result, schedule.client_id)
         if schedule.response_address:
             sckt = pusher_cache.get(schedule.response_address)
             logging.info('DAG %s (ID %s) result returned to requester.' %

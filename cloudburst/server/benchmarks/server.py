@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  Modifications copyright (C) 2021 Taras Lykhenko, Rafael Soares
+
 import logging
 import sys
 
@@ -22,7 +23,6 @@ from cloudburst.server.benchmarks import (
     composition,
     locality,
     tcc_bench,
-    tcc_parallel_bench,
     lambda_locality,
     mobilenet,
     predserving,
@@ -35,7 +35,7 @@ import redis
 
 BENCHMARK_START_PORT = 3000
 
-logging.basicConfig(level=logging.INFO, stream=sys.stdout,
+logging.basicConfig(filename='log_benchmark.txt', level=logging.INFO,
                     format='%(asctime)s %(message)s')
 
 def benchmark(ip, cloudburst_address, tid):
@@ -64,18 +64,17 @@ def benchmark(ip, cloudburst_address, tid):
 
 
         create = eval(splits[7])
-        warmup = eval(splits[8])
 
-        run_bench(bname, num_requests, cloudburst, kvs, r, create, dag_name, db_size, tx_size, dag_size, zipf, warmup)
+        run_bench(bname, num_requests, cloudburst, kvs, r, create, dag_name, db_size, tx_size, dag_size, zipf)
 
 
-def run_bench(bname, num_requests, cloudburst, kvs, redis, create=False, dag_name = "", db_size = 0, tx_size = 0, dag_size = 0, zipf = 0, warmup=False):
+def run_bench(bname, num_requests, cloudburst, kvs, redis, create=False, dag_name = "", db_size = 0, tx_size = 0, dag_size = 0, zipf = 0):
     logging.info('Running benchmark %s, %d requests.' % (bname, num_requests))
 
 
     if bname == 'tcc':
         total, scheduler, kvs, retries = tcc_bench.run(cloudburst, num_requests,
-                                                  create, redis, dag_name, db_size, tx_size, dag_size, zipf, warmup)
+                                                  create, redis, dag_name, db_size, tx_size, dag_size, zipf)
 
     else:
         logging.info('Unknown benchmark type: %s!' % (bname))
